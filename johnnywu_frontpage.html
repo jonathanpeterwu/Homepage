@@ -1,32 +1,408 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="description" content="Johnny Wu is a Documentary Photographer, Full Stack Developer in Training, and loves Chocolate">
-    <meta name="keywords" content="Johnny Wu 昱緯, Devbootcamp, Tufts University, Pavlok, Johnnywu.io">
-    <title>Johnny Wu 「昱緯」</title>
-    <meta name="apple-mobile-web-app-title" content="Johnny Wu">
-    <link rel="shortcut icon" href="http://chenluois.com/favicon.ico">
-    <link rel="stylesheet" href="http://chenluois.com/main.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NY Tech + AI Job Matcher</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f3f5f8;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --accent: #2563eb;
+        --accent-soft: #dbeafe;
+        --border: #d1d5db;
+        --success: #047857;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .container { max-width: 1180px; margin: 0 auto; padding: 24px; }
+      h1 { margin: 0; font-size: 2rem; }
+      .subhead { margin: 8px 0 0; color: var(--muted); }
+      .grid {
+        display: grid;
+        gap: 16px;
+        margin-top: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .card h2 { margin-top: 0; font-size: 1.1rem; }
+      .controls { display: grid; gap: 12px; }
+      label { display: grid; gap: 6px; font-size: 0.92rem; }
+      input, select {
+        width: 100%; padding: 10px; border: 1px solid var(--border);
+        border-radius: 10px; font-size: 0.95rem; background: #fff;
+      }
+      button {
+        padding: 11px 14px; border-radius: 10px; border: 0;
+        background: var(--accent); color: #fff; font-weight: 600; cursor: pointer;
+      }
+      .result-list { display: grid; gap: 12px; }
+      .result { border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+      .top-line { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+      .score {
+        background: var(--accent-soft); color: #1e40af; padding: 3px 8px;
+        border-radius: 999px; font-size: 0.82rem; font-weight: 700;
+      }
+      .meta { color: var(--muted); margin: 6px 0; font-size: 0.88rem; }
+      .reasons { margin: 6px 0 0; padding-left: 18px; font-size: 0.9rem; }
+      .pill {
+        display: inline-block; margin-top: 8px; font-size: 0.8rem; color: var(--success);
+        border: 1px solid #a7f3d0; background: #ecfdf5; border-radius: 999px; padding: 2px 8px;
+      }
+      .empty { color: var(--muted); font-style: italic; }
+      .job-link { font-size: 0.88rem; }
+    </style>
   </head>
-<body>
+  <body>
+    <main class="container">
+      <h1>NY Tech + AI Job Matcher</h1>
+      <p class="subhead">
+        Match candidates and companies by NYC living preference, budget range, in-office expectations, and years of experience.
+      </p>
 
-  <article>
-    <h1><span>Hi I'm</span> <a href="http://chenluois.com/timeline/" id="timeline">Johnny Wu<sup>「昱緯」</sup></a></h1>
-    <p><a href="http://johnnwu.io/codingbits">CodingBits</a> / <a href="http://devbootcamp.com/">Devbootcamp</a> / <a href="http://www.tufts.edu/">Tufts University</a> / <a href="http://pavlok.com/">Pavlok</a> / <a href="http://johnnywu.io/">Web Dev</a>
-    <p><a href="http://jonathanpeterwu.com" id="blog">Blog</a> - <a href="mailto:jonathan.x.wu@gmail.com?subject=Hello" id="email">Email</a> - <a href="http://twitter.com/jonathanpeterwu" id="twitter">Twitter</a> - <a href="https://github.com/jonathanpeterwu" id="github">Github</a> - <a href="http://www.linkedin.com/in/jonathanpeterwu" id="linkedin">LinkedIn</a></p>
-  </article>
+      <section class="grid">
+        <article class="card">
+          <h2>Candidate profile</h2>
+          <form id="candidateForm" class="controls">
+            <label>Name <input id="name" required value="Alex Kim" /></label>
+            <label>
+              Living preference
+              <select id="livingPreference">
+                <option value="manhattan">Manhattan lifestyle</option>
+                <option value="brooklyn">Brooklyn neighborhood feel</option>
+                <option value="queens">Queens value + commute balance</option>
+                <option value="remote-first">Remote-first in NY state</option>
+              </select>
+            </label>
+            <label>
+              Annual salary target ($)
+              <input id="budgetPreference" type="number" min="70000" step="5000" value="170000" />
+            </label>
+            <label>
+              In-office preference
+              <select id="officePreference">
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="in-office">In-office</option>
+              </select>
+            </label>
+            <label>
+              Years of experience
+              <input id="experience" type="number" min="0" step="1" value="5" />
+            </label>
+            <button type="submit">Find best company matches</button>
+          </form>
+        </article>
 
 
-  <!-- JS -->
-  <script async="" src="./Chen Luo 「罗晨」_files/ga.js"></script><script>
-    var _gaq=[['_setAccount','UA-17331483-4'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-  </script>
+        <article class="card">
+          <h2>Email access for insights</h2>
+          <form id="insightsForm" class="controls">
+            <label>Email
+              <input id="insightsEmail" type="email" required placeholder="you@example.com" />
+            </label>
+            <label>Insight access type
+              <select id="insightsType">
+                <option value="career-insights">Career insights access</option>
+                <option value="reachout-insights">Reach-out insights access</option>
+              </select>
+            </label>
+            <button type="submit">Continue with email</button>
+          </form>
+          <p id="insightsMessage" class="meta">Log in with email to unlock insights tools.</p>
+        </article>
 
+        <article class="card">
+          <h2>Top company matches</h2>
+          <div id="companyResults" class="result-list"></div>
+        </article>
+
+        <article class="card">
+          <h2>Candidate fit by company role</h2>
+          <div id="candidateResults" class="result-list"></div>
+        </article>
+
+        <article class="card">
+          <h2>Submit a Brooklyn startup job</h2>
+          <form id="jobForm" class="controls">
+            <label>Startup name <input id="jobCompany" required placeholder="Acme AI" /></label>
+            <label>Job title <input id="jobTitle" required placeholder="Founding ML Engineer" /></label>
+            <label>Location <input id="jobLocation" required value="Brooklyn, NY" /></label>
+            <label>Compensation note <input id="jobComp" placeholder="$160k-$190k + equity" /></label>
+            <label>Specific job URL <input id="jobUrl" required type="url" placeholder="https://.../jobs/..." /></label>
+            <button type="submit">Submit specific job publicly</button>
+          </form>
+          <p class="meta">Submissions are saved in your browser (localStorage). Please submit a direct job-post URL (not a generic careers homepage).</p>
+        </article>
+
+        <article class="card" style="grid-column: 1 / -1;">
+          <h2>Brooklyn startup jobs (seed + community)</h2>
+          <div id="jobsBoard" class="result-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const companies = [
+        { name: "Hudson Neural Labs", role: "Senior ML Engineer", livingPreference: "manhattan", budgetMin: 180000, budgetMax: 235000, officePreference: "hybrid", minExperience: 4 },
+        { name: "Brooklyn Vision Systems", role: "Applied AI Engineer", livingPreference: "brooklyn", budgetMin: 150000, budgetMax: 205000, officePreference: "in-office", minExperience: 3 },
+        { name: "Queens Data Forge", role: "AI Platform Engineer", livingPreference: "queens", budgetMin: 140000, budgetMax: 190000, officePreference: "hybrid", minExperience: 2 },
+        { name: "Empire State GenAI", role: "LLM Product Engineer", livingPreference: "remote-first", budgetMin: 165000, budgetMax: 220000, officePreference: "remote", minExperience: 5 },
+      ];
+
+      // Seed data from public startup career pages in Brooklyn, NY (manually curated starter list).
+      const seedJobs = [
+        {
+          company: "Nanit",
+          title: "Senior Software Engineer, Platform",
+          location: "Brooklyn, NY",
+          compensation: "See listing",
+          sourceUrl: "https://job-boards.greenhouse.io/nanit/jobs/4571689008",
+          sourceType: "Seed (specific public job post)",
+        },
+        {
+          company: "Orchard",
+          title: "Software Engineer II, Backend",
+          location: "Brooklyn, NY",
+          compensation: "See listing",
+          sourceUrl: "https://jobs.ashbyhq.com/orchard/2d9d4667-4aa8-4555-9d3b-6f8fd1d6207b",
+          sourceType: "Seed (specific public job post)",
+        },
+        {
+          company: "Air Company",
+          title: "Machine Learning Engineer",
+          location: "Brooklyn, NY",
+          compensation: "See listing",
+          sourceUrl: "https://jobs.lever.co/aircompany/4f9de84a-e2f7-4ac4-8717-c6cbdd72e5ca",
+          sourceType: "Seed (specific public job post)",
+        },
+        {
+          company: "Fleet AI",
+          title: "Former Founder with Track Record and Experience",
+          location: "New York, NY",
+          compensation: "See listing",
+          sourceUrl: "https://www.fleetai.com/careers/former-founder-with-track-record-and-experience",
+          sourceType: "Seed (specific public job post)",
+        },
+      ];
+
+      const officeCompatibility = {
+        remote: { remote: 1, hybrid: 0.7, "in-office": 0.2 },
+        hybrid: { remote: 0.7, hybrid: 1, "in-office": 0.7 },
+        "in-office": { remote: 0.2, hybrid: 0.7, "in-office": 1 },
+      };
+
+      const COMMUNITY_JOBS_KEY = "brooklyn_community_jobs_v1";
+      const INSIGHTS_LOG_KEY = "insights_email_logs_v1";
+
+      function scoreMatch(candidate, company) {
+        const reasons = [];
+        let score = 0;
+
+        if (candidate.livingPreference === company.livingPreference) {
+          score += 25;
+          reasons.push("Living preference is a direct match.");
+        } else {
+          score += 8;
+          reasons.push("Living preference differs but still workable in NY.");
+        }
+
+        if (candidate.budgetPreference >= company.budgetMin && candidate.budgetPreference <= company.budgetMax) {
+          score += 30;
+          reasons.push("Salary target falls within the role budget.");
+        } else {
+          const distance = Math.min(
+            Math.abs(candidate.budgetPreference - company.budgetMin),
+            Math.abs(candidate.budgetPreference - company.budgetMax)
+          );
+          const budgetScore = Math.max(8, 30 - Math.floor(distance / 10000) * 4);
+          score += budgetScore;
+          reasons.push("Salary target is close to budget range.");
+        }
+
+        const officeScore = officeCompatibility[candidate.officePreference][company.officePreference] * 20;
+        score += officeScore;
+        reasons.push(officeScore === 20 ? "Office style aligns perfectly." : "Office style partially aligns.");
+
+        if (candidate.experience >= company.minExperience) {
+          const bonus = Math.min(25, 16 + (candidate.experience - company.minExperience) * 2);
+          score += bonus;
+          reasons.push("Experience meets or exceeds role requirement.");
+        } else {
+          const gap = company.minExperience - candidate.experience;
+          score += Math.max(4, 15 - gap * 4);
+          reasons.push("Experience gap exists but may be coachable.");
+        }
+
+        return { score: Math.round(Math.min(score, 100)), reasons };
+      }
+
+      function getCommunityJobs() {
+        try {
+          return JSON.parse(localStorage.getItem(COMMUNITY_JOBS_KEY) || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function saveCommunityJobs(jobs) {
+        localStorage.setItem(COMMUNITY_JOBS_KEY, JSON.stringify(jobs));
+      }
+
+
+      function isSpecificJobUrl(url) {
+        const u = url.toLowerCase();
+        const genericPatterns = [/\/careers\/?$/, /\/jobs\/?$/, /\/join-us\/?$/, /\/work-with-us\/?$/];
+        const looksGeneric = genericPatterns.some((pattern) => pattern.test(u));
+        const hasJobSignal = /\/jobs\//.test(u) || /viewjob/.test(u) || /job-boards\.greenhouse\.io/.test(u) || /jobs\.lever\.co/.test(u) || /ashbyhq\.com\/.+\//.test(u);
+        return !looksGeneric && hasJobSignal;
+      }
+
+
+      function getInsightsLogs() {
+        try {
+          return JSON.parse(localStorage.getItem(INSIGHTS_LOG_KEY) || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function saveInsightsLogs(logs) {
+        localStorage.setItem(INSIGHTS_LOG_KEY, JSON.stringify(logs));
+      }
+
+      function renderResults(candidate) {
+        const scored = companies.map((company) => ({ company, ...scoreMatch(candidate, company) })).sort((a, b) => b.score - a.score);
+        const companyResults = document.getElementById("companyResults");
+        const candidateResults = document.getElementById("candidateResults");
+
+        companyResults.innerHTML = scored
+          .map(({ company, score, reasons }, idx) => `
+            <div class="result">
+              <div class="top-line"><strong>${idx + 1}. ${company.name}</strong><span class="score">${score}% match</span></div>
+              <p class="meta">${company.role} · ${company.officePreference} · $${company.budgetMin.toLocaleString()}-$${company.budgetMax.toLocaleString()}</p>
+              <ul class="reasons">${reasons.slice(0, 3).map((reason) => `<li>${reason}</li>`).join("")}</ul>
+              ${idx === 0 ? '<span class="pill">Best overall fit</span>' : ""}
+            </div>`)
+          .join("");
+
+        candidateResults.innerHTML = scored
+          .map(({ company, score }) => `
+            <div class="result">
+              <div class="top-line"><strong>${candidate.name} → ${company.role}</strong><span class="score">${score}/100</span></div>
+              <p class="meta">${company.name}</p>
+            </div>`)
+          .join("");
+      }
+
+      function renderJobsBoard() {
+        const allJobs = [...seedJobs, ...getCommunityJobs()];
+        const jobsBoard = document.getElementById("jobsBoard");
+
+        if (!allJobs.length) {
+          jobsBoard.innerHTML = '<p class="empty">No jobs yet. Add one using the form.</p>';
+          return;
+        }
+
+        jobsBoard.innerHTML = allJobs
+          .map(
+            (job) => `
+            <div class="result">
+              <div class="top-line">
+                <strong>${job.title}</strong>
+                <span class="score">${job.location}</span>
+              </div>
+              <p class="meta">${job.company}${job.compensation ? ` · ${job.compensation}` : ""}</p>
+              <p class="meta">${job.sourceType || "Community submission"}</p>
+              <a class="job-link" href="${job.sourceUrl}" target="_blank" rel="noreferrer noopener">View public listing</a>
+            </div>
+          `
+          )
+          .join("");
+      }
+
+      document.getElementById("candidateForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const candidate = {
+          name: document.getElementById("name").value.trim() || "Candidate",
+          livingPreference: document.getElementById("livingPreference").value,
+          budgetPreference: Number(document.getElementById("budgetPreference").value),
+          officePreference: document.getElementById("officePreference").value,
+          experience: Number(document.getElementById("experience").value),
+        };
+        renderResults(candidate);
+      });
+
+      document.getElementById("jobForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const sourceUrl = document.getElementById("jobUrl").value.trim();
+        if (!isSpecificJobUrl(sourceUrl)) {
+          alert("Please provide a specific job posting URL (not a general careers page).");
+          return;
+        }
+
+        const newJob = {
+          company: document.getElementById("jobCompany").value.trim(),
+          title: document.getElementById("jobTitle").value.trim(),
+          location: document.getElementById("jobLocation").value.trim(),
+          compensation: document.getElementById("jobComp").value.trim(),
+          sourceUrl,
+          sourceType: "Community submission (specific job post)",
+          submittedAt: new Date().toISOString(),
+        };
+
+        const jobs = getCommunityJobs();
+        jobs.unshift(newJob);
+        saveCommunityJobs(jobs);
+        renderJobsBoard();
+        event.target.reset();
+        document.getElementById("jobLocation").value = "Brooklyn, NY";
+      });
+
+
+      document.getElementById("insightsForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("insightsEmail").value.trim().toLowerCase();
+        const type = document.getElementById("insightsType").value;
+
+        const entry = {
+          email,
+          type,
+          loggedAt: new Date().toISOString(),
+        };
+
+        const logs = getInsightsLogs();
+        logs.unshift(entry);
+        saveInsightsLogs(logs.slice(0, 200));
+
+        const message = document.getElementById("insightsMessage");
+        const typeLabel = type === "career-insights" ? "Career insights" : "Reach-out insights";
+        message.textContent = `${typeLabel} access enabled for ${email}.`;
+      });
+
+      renderResults({
+        name: "Alex Kim",
+        livingPreference: "manhattan",
+        budgetPreference: 170000,
+        officePreference: "hybrid",
+        experience: 5,
+      });
+      renderJobsBoard();
+    </script>
   </body>
 </html>
